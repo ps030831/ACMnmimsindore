@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM Chapter - NMIMS Indore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8e0000;
+            --primary-dark: #600000;
+            --light: #ffffff;
+            --gray: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--light);
+            color: #333;
+            position: relative;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(142, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(142, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        nav {
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+            padding: 1rem 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        nav.scrolled {
+            background-color: var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav a.nav-link {
+            color: var(--primary) !important;
+            font-weight: 500;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled a.nav-link {
+            color: var(--light) !important;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        nav.scrolled .navbar-brand {
+            color: var(--light) !important;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(142, 0, 0, 0.9), rgba(142, 0, 0, 0.8)), url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            color: var(--light);
+            text-align: center;
+            padding: 200px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M10 10h20v20H10zM40 10h20v20H40zM70 10h20v20H70zM10 40h20v20H10zM40 40h20v20H40zM70 40h20v20H70zM10 70h20v20H10zM40 70h20v20H40zM70 70h20v20H70z' stroke='rgba(255,255,255,0.1)' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Share Tech Mono', monospace;
+            margin: 80px 0 40px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '< ';
+            opacity: 0.5;
+        }
+
+        .section-title::after {
+            content: ' />';
+            opacity: 0.5;
+        }
+
+        .event-card {
+            border: 2px solid var(--primary);
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-card img {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-card {
+            text-align: center;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            border: 2px solid var(--primary);
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+        }
+
+        .team-card img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(142, 0, 0, 0.3);
+        }
+
+        .team-card h5 {
+            font-family: 'Share Tech Mono', monospace;
+            margin-top: 1rem;
+        }
+
+        .team-card h5::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        .form-control {
+            font-family: 'Share Tech Mono', monospace;
+            border: 2px solid var(--primary);
+            background: rgba(255,255,255,0.9);
+            border-radius: 0;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(142, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            font-family: 'Share Tech Mono', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.5);
+            animation: button-scan 2s linear infinite;
+        }
+
+        @keyframes button-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: var(--light);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 2px solid var(--primary);
+        }
+
+        .social-icons a {
+            color: var(--light);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .social-icons a:hover {
+            color: var(--gray);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">ACM NMIMS Indore</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero" data-aos="fade">
+        <div class="container">
+            <h1>Welcome to ACM NMIMS Indore</h1>
+            <p>Empowering innovation and excellence in computing</p>
+            <a href="#about" class="btn btn-primary btn-lg">Initialize System</a>
+        </div>
+    </div>
+
+    <div id="about">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">About Us</h2>
+            <div class="about-content" data-aos="fade-up" data-aos-delay="100">
+                <p>The ACM Chapter at SVKM's NMIMS Indore is a student-driven community fostering innovation and excellence in technology. We host workshops, hackathons, and competitions to empower students in areas like AI, data science, and software engineering. Our mission is to inspire creativity, collaboration, and impactful tech solutions.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="events" class="container">
+        <h2 class="section-title" data-aos="fade-up">Our Events</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="event-card">
+                    <img src="chap1.jpg" class="card-img-top" alt="Hackathon">
+                    <div class="card-body">
+                        <h5 class="card-title">Chapter Launch and Guest Session</h5>
+                        <p class="card-text">At our Chapter Launch, Chief Guest, Shri Ash Dhupar Ji, Chief Data and Analytics Officer at Analog Devices Inc, delivered a talk on “Data Science World”.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="event-card">
+                    <img src="chap2.jpg" class="card-img-top" alt="Workshop on AI">
+                    <div class="card-body">
+                        <h5 class="card-title">Seminar</h5>
+                        <p class="card-text">Our Speaker, Shri Kiran Deshpande Ji has delivered a talk on “Entrepreneurship and Market sales strategy”.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="event-card">
+                    <img src="techfest.jpg" class="card-img-top" alt="Tech Fest">
+                    <div class="card-body">
+                        <h5 class="card-title">Tech Fest (January 15-16)</h5>
+                        <p class="card-text">Exciting activities and prizes coming up next!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="team" class="container">
+        <h2 class="section-title" data-aos="fade-up">Meet Our Team</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="team-card">
+                    <img src="ShrutiSharma.jpg" alt="Shruti Sharma">
+                    <h5>Shruti Sharma</h5>
+                    <p>Faculty Coordinator</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="team-card">
+                    <img src="Preet.jpg" alt="Preet Sadhwani">
+                    <h5>Preet Sadhwani</h5>
+                    <p>Chair</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="team-card">
+                    <img src="Nishka.jpg" alt="Nishka Vijayavargiya">
+                    <h5>Nishka Vijayavargiya</h5>
+                    <p>Vice Chair</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="team-card">
+                    <img src="Satvik.jpg" alt="Satvik Gupta">
+                    <h5>Satvik Gupta</h5>
+                    <p>Secretary</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="team-card">
+                    <img src="Maitri.jpg" alt="Maitri Jain">
+                    <h5>Maitri Jain</h5>
+                    <p>Treasurer</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="team-card">
+                    <img src="karishma.jpg" alt="Karishma Parwani">
+                    <h5>Karishma Parwani</h5>
+                    <p>Membership Chair</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="container">
+        <h2 class="section-title" data-aos="fade-up">Contact Us</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="contact-form" data-aos="fade-up" data-aos-delay="100">
+                    <form>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" placeholder="Initialize: Name">
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" class="form-control" placeholder="Initialize: Email">
+                        </div>
+                        <div class="mb-4">
+                            <textarea class="form-control" rows="5" placeholder="Initialize: Message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Execute Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ACM NMIMS Indore :: System All Rights Reserved ::</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
